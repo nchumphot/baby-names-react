@@ -15,44 +15,34 @@ export function MainContent(): JSX.Element {
     a.name.toLowerCase().localeCompare(b.name.toLowerCase())
   );
 
-  const [namesToShow, setNamesToShow] = useState<IBabyName[]>(allBabyNames);
-
   // Return a button of baby name
-  function BabyNameButton(babyName: IBabyName): JSX.Element {
+  const BabyNameButton = (babyName: IBabyName): JSX.Element => {
     return (
       <button
-        className={babyName.sex === "m" ? "button-male" : "button-female"}
+        className={
+          babyName.sex.toLowerCase() === "m" ? "button-male" : "button-female"
+        }
       >
         {babyName.name}
       </button>
     );
-  }
+  };
 
-  function SearchBar(): JSX.Element {
+  const SearchBar = (): JSX.Element => {
     return (
       <>
         <input
+          type="text"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setNamesToShow(filterByName(allBabyNames, e.target.value));
             console.log("My search is:", e.target.value);
           }}
-          placeholder="Search names"
+          placeholder="Search..."
         ></input>
       </>
     );
-  }
-
-  function filterByName(allNames: IBabyName[], search: string): IBabyName[] {
-    const namesToShow = [];
-    for (const item of allNames) {
-      if (item.name.toLowerCase().includes(search.toLowerCase())) {
-        namesToShow.push(item);
-      }
-    }
-    return namesToShow;
-  }
+  };
 
   return (
     <>
@@ -60,7 +50,17 @@ export function MainContent(): JSX.Element {
       <SearchBar />
       <br />
       <br />
-      {namesToShow.map(BabyNameButton)}
+      {allBabyNames
+        .filter((item) => {
+          if (search === "") {
+            return item;
+          } else if (item.name.toLowerCase().includes(search.toLowerCase())) {
+            return item;
+          } else {
+            return null;
+          }
+        })
+        .map(BabyNameButton)}
     </>
   );
 }
