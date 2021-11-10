@@ -100,7 +100,7 @@ export function MainContent(): JSX.Element {
           return !favourites.includes(item) && item;
         })
         .map(BabyNameButton)}
-        <hr />
+      <hr />
     </>
   );
 }
