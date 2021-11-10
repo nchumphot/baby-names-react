@@ -10,6 +10,8 @@ interface IBabyName {
 export function MainContent(): JSX.Element {
   const [search, setSearch] = useState<string>("");
   const [favourites, setFavourites] = useState<IBabyName[]>([]);
+  const [sexFilter, setSexFilter] = useState<string>("All");
+  const sexFilterOptions = ["All", "Girls", "Boys"];
 
   // Sort baby names alphabetically
   const allBabyNames = unsortedBabyNames.sort((a, b) =>
@@ -65,10 +67,27 @@ export function MainContent(): JSX.Element {
     );
   };
 
+  const radioButton = (item: string): JSX.Element => {
+    return (
+      <>
+        <input
+          type="radio"
+          name="sex-filter"
+          value={item}
+          id={item}
+          checked={sexFilter === item}
+          onChange={(e) => setSexFilter(e.target.value)}
+        />
+        <label htmlFor={item}>{item}</label>
+      </>
+    );
+  };
+
   return (
     <>
       <h1>Baby Name Selector</h1>
       <SearchBar />
+      {sexFilterOptions.map(radioButton)}
       <br />
       <br />
       {favourites.length === 0 ? (
@@ -81,8 +100,10 @@ export function MainContent(): JSX.Element {
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         )
         .map(FavouriteButton)}
-      <br />
-      {favourites.length !== 0 && <br />}
+      {favourites.length !== 0 && (
+        <p>To remove names from Favourites, simply click it again.</p>
+      )}
+      {favourites.length === 0 && <br />}
       <hr />
       {allBabyNames
         .filter((item) => {
@@ -98,6 +119,18 @@ export function MainContent(): JSX.Element {
         .filter((item) => {
           // do not show favourite names
           return !favourites.includes(item) && item;
+        })
+        .filter((item) => {
+          // filter by sex
+          if (sexFilter === "All") {
+            return item;
+          } else if (sexFilter === "Girls") {
+            return item.sex.toLowerCase() === "f" && item;
+          } else if (sexFilter === "Boys") {
+            return item.sex.toLowerCase() === "m" && item;
+          } else {
+            return null;
+          }
         })
         .map(BabyNameButton)}
       <hr />
