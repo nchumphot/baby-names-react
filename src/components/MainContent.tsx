@@ -78,7 +78,8 @@ export function MainContent(): JSX.Element {
         )
         .map(FavouriteButton)}
       <br />
-      <br />
+      {favourites.length !== 0 && <br />}
+      <hr />
       {allBabyNames
         .filter((item) => {
           // filter by search
@@ -95,6 +96,7 @@ export function MainContent(): JSX.Element {
           return !favourites.includes(item) && item;
         })
         .map(BabyNameButton)}
+        <hr />
     </>
   );
 }
