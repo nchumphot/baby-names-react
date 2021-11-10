@@ -20,6 +20,8 @@ export function MainContent(): JSX.Element {
   const BabyNameButton = (babyName: IBabyName): JSX.Element => {
     return (
       <button
+        key={babyName.id}
+        type="button"
         className={
           babyName.sex.toLowerCase() === "m" ? "button-male" : "button-female"
         }
@@ -35,6 +37,8 @@ export function MainContent(): JSX.Element {
     const returnArray = favourites.filter((item) => item !== babyName && item);
     return (
       <button
+        key={babyName.id}
+        type="button"
         className={
           babyName.sex.toLowerCase() === "m" ? "button-male" : "button-female"
         }
@@ -78,7 +82,8 @@ export function MainContent(): JSX.Element {
         )
         .map(FavouriteButton)}
       <br />
-      <br />
+      {favourites.length !== 0 && <br />}
+      <hr />
       {allBabyNames
         .filter((item) => {
           // filter by search
@@ -95,6 +100,7 @@ export function MainContent(): JSX.Element {
           return !favourites.includes(item) && item;
         })
         .map(BabyNameButton)}
+      <hr />
     </>
   );
 }
