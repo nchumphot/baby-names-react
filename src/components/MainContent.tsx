@@ -20,6 +20,8 @@ export function MainContent(): JSX.Element {
   const BabyNameButton = (babyName: IBabyName): JSX.Element => {
     return (
       <button
+        key={babyName.id}
+        type="button"
         className={
           babyName.sex.toLowerCase() === "m" ? "button-male" : "button-female"
         }
@@ -35,6 +37,8 @@ export function MainContent(): JSX.Element {
     const returnArray = favourites.filter((item) => item !== babyName && item);
     return (
       <button
+        key={babyName.id}
+        type="button"
         className={
           babyName.sex.toLowerCase() === "m" ? "button-male" : "button-female"
         }
